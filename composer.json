@@ -1,0 +1,12 @@
+{
+    "name": "oliverlorenz/lightswitcher",
+    "require": {
+        "silex/silex": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Oliver Lorenz",
+            "email": "mail@oliverlorenz.com"
+        }
+    ]
+}
