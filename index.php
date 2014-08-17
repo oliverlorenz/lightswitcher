@@ -17,14 +17,14 @@ $config = array(
     ),
     'kitchen' => array(
         'code' => '10110',
-        'channel' => '3',
+        'channel' => '4',
     ),
     'bedroom' => array(
         'code' => '10110',
-        'channel' => '4',
+        'channel' => '3',
     ),
     'multimedia' => array(
-        'code' => '10100',
+        'code' => '10010',
         'channel' => '1',
     )
 );
