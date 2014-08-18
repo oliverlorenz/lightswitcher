@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Oliver Lorenz <oliver.lorenz@project-collins.com>
+ * @author Oliver Lorenz <mail@oliverlorenz.com>
  * @since 2014-08-17
  */
 
