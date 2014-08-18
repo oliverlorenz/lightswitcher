@@ -6,28 +6,7 @@
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$config = array(
-    'floor' => array(
-        'code' => '10110',
-        'channel' => '2',
-    ),
-    'livingroom' => array(
-        'code' => '10110',
-        'channel' => '1',
-    ),
-    'kitchen' => array(
-        'code' => '10110',
-        'channel' => '4',
-    ),
-    'bedroom' => array(
-        'code' => '10110',
-        'channel' => '3',
-    ),
-    'multimedia' => array(
-        'code' => '10010',
-        'channel' => '1',
-    )
-);
+include('config.php');
 
 $header = '<html lang="en">
 	<head>
@@ -76,7 +55,7 @@ $footer = '</div>
 	</body>
 </html>';
 
-function getSwitch($name, $code, $channel) {
+function getSwitch($name) {
     $html = '<div class="row">
 		    	<h2>' . ucfirst($name) . '</h2>
 		 		<div class="col-xs-6">
@@ -89,9 +68,11 @@ function getSwitch($name, $code, $channel) {
     return $html;
 }
 
-function doCommand($code, $channel, $state)
+function doCommand($config, $code, $channel, $state)
 {
-    $command = "cd /home/pi/rcswitch-pi/; sudo ./send " . $code . " " . $channel . " " . $state;
+    $pattern = $config['command']['pattern'];
+
+    $command = sprintf($pattern, $code, $channel, $state);
     system($command);
     return $command;
 }
@@ -100,19 +81,22 @@ $app = new Silex\Application();
 
 $app->get('/', function() use($app, $config, $header, $footer) {
     $html = $header;
-    foreach ($config as $name => $data) {
+    foreach ($config['switches'] as $name => $data) {
         $html .= getSwitch($name, $data['code'], $data['channel']);
     }
     $html .= $footer;
     return $html;
 });
+
 $app->get('/light/{name}/on', function($name) use($app, $config) {
-    $code = $config[$name]['code'];
-    $channel = $config[$name]['channel'];
+    $code = $config['switches'][$name]['code'];
+    $channel = $config['switches'][$name]['channel'];
     $state = 1;
 
-    doCommand($code, $channel, $state);
-    return '';
+    $return = '';
+    $return =
+        doCommand($config, $code, $channel, $state);
+    return $return;
 });
 
 $app->get('/light/{name}/off', function($name) use($app, $config) {
@@ -120,7 +104,7 @@ $app->get('/light/{name}/off', function($name) use($app, $config) {
     $channel = $config[$name]['channel'];
     $state = 0;
 
-    doCommand($code, $channel, $state);
+    doCommand($config, $code, $channel, $state);
     return '';
 });
 
