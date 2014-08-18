@@ -55,6 +55,10 @@ $footer = '</div>
 	</body>
 </html>';
 
+/**
+ * @param $name
+ * @return string
+ */
 function getSwitch($name) {
     $html = '<div class="row">
 		    	<h2>' . ucfirst($name) . '</h2>
@@ -68,6 +72,13 @@ function getSwitch($name) {
     return $html;
 }
 
+/**
+ * @param $config
+ * @param $code
+ * @param $channel
+ * @param $state
+ * @return string
+ */
 function doCommand($config, $code, $channel, $state)
 {
     $pattern = $config['command']['pattern'];
@@ -94,7 +105,7 @@ $app->get('/light/{name}/on', function($name) use($app, $config) {
     $state = 1;
 
     $return = '';
-    $return =
+    // $return =
         doCommand($config, $code, $channel, $state);
     return $return;
 });
